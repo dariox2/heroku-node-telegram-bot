@@ -1,4 +1,7 @@
 
+
+
+
 var token = process.env.TOKEN;
 
 var Bot = require('node-telegram-bot-api');
@@ -9,20 +12,78 @@ if(process.env.NODE_ENV === 'production') {
   bot.setWebHook(process.env.HEROKU_URL + bot.token);
 }
 else {
+  
+  // dja - cancel webhook
+  var request = require('request');
+  request("https://api.telegram.org/bot"+token+"/setWebhook?url=", function (error, response, body) {
+    //if (!error && response.statusCode == 200) {
+    //  console.log(body) // Show the HTML for the Google homepage.
+    //}
+    console.log(body);
+  })
+  
   bot = new Bot(token, { polling: true });
 }
 
 console.log('Bot server started in the ' + process.env.NODE_ENV + ' mode');
 
 bot.onText(/^/, function (msg) {
+  
+  
   var fname = msg.from.first_name;
   var lname = (msg.from.last_name || '');
   var uname = msg.from.username;
   var time = new Date().toLocaleString();
-  var reply = 'Hello, ' + fname + ' ' + lname + ' (@' + uname + '\n'+ 'The time is '+time
-  bot.sendMessage(msg.chat.id, reply).then(function () {
+
+  console.log("MSG RCVD @"+uname+" ["+msg.text+"]");
+
+  var rply = 'Hello, ' + fname + ' ' + lname + ' (@' + uname + ')\n'+ 'The time is '+time
+  
+  console.log("MSG RPLY @"+uname+" ["+rply+"]" );
+  
+  bot.sendMessage(msg.chat.id, rply).then(function () {
     // reply sent!
   });
 });
 
+
+//--------------------------
+
+// Matches "/echo [whatever]"
+bot.onText(/\/echo (.+)/, function (msg, match) {
+  // 'msg' is the received Message from Telegram
+  // 'match' is the result of executing the regexp above on the text content
+  // of the message
+
+  var chatId = msg.chat.id;
+  var resp = match[1]; // the captured "whatever"
+
+  // send back the matched "whatever" to the chat
+  bot.sendMessage(chatId, resp);
+});
+
+// Listen for any kind of message. There are different kinds of
+// messages.
+bot.on('message', function (msg) {
+  var chatId = msg.chat.id;
+
+  // send a message to the chat acknowledging receipt of their message
+  bot.sendMessage(chatId, "Received your message");
+});
+
+
+// dja
+bot.on('photo', function (msg) {
+  var chatId = msg.chat.id;
+  bot.sendMessage(chatId, "Received your photo");
+});
+
+
+//----------------------------------------
+
+
+
 module.exports = bot;
+
+
+// eop
