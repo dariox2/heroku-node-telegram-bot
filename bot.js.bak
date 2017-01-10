@@ -19,7 +19,7 @@ bot.onText(/^/, function (msg) {
   var lname = (msg.from.last_name || '');
   var uname = msg.from.username;
   var time = new Date().toLocaleString();
-  var reply = 'Hello, ' + fname + ' ' + lname + ' (@' + uname + ')\n'+ 'The time is '+time
+  var reply = 'Hello, ' + fname + ' ' + lname + ' (@' + uname + '\n'+ 'The time is '+time
   bot.sendMessage(msg.chat.id, reply).then(function () {
     // reply sent!
   });
