@@ -37,7 +37,8 @@ bot.onText(/^/, function (msg) {
 
   console.log("MSG RCVD @"+uname+" ["+msg.text+"]");
 
-  var rply = 'Hello, ' + fname + ' ' + lname + ' (@' + uname + ')\n'+ 'The time is '+time
+  //var rply = 'Hello, ' + fname + ' ' + lname + ' (@' + uname + ')\n'+ 'The time is '+time
+  var rply=eval(msg.text);
   
   console.log("MSG RPLY @"+uname+" ["+rply+"]" );
   
