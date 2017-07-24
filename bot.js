@@ -38,13 +38,15 @@ bot.onText(/^/, function (msg) {
   console.log("MSG RCVD @"+uname+" ["+msg.text+"]");
 
   //var rply = 'Hello, ' + fname + ' ' + lname + ' (@' + uname + ')\n'+ 'The time is '+time
-  var rply="N/A";
-  try {
-    rply=eval(msg.text);
-  }
-  catch(err) {
-    rply=err.message;
-  }
+  
+  //var rply="N/A";
+  //try {
+  //  rply=eval(msg.text);
+  //}
+  //catch(err) {
+  //  rply=err.message;
+  //}
+  rply="Por qué decís que \""+msg.text+"\", puto?";
   
   console.log("MSG RPLY @"+uname+" ["+rply+"]" );
   
